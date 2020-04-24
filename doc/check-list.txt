@@ -1,0 +1,20 @@
+28/04
+- Mostrar os diferentes repositories do spring
+
+- Consultas spring disponiveis
+- Consulta personalizada
+
+23/04
+- Terminar de implementar o entity
+	- Setter e Getter
+	- Equal e Hashcode
+- Implementar o repository (acesso ao banco de dados DAO)
+	- Inserir clientes na base dados
+- Implementar o service (lógica de negócio)
+	- Consulta de clientes
+- Implementar o controller
+
+
+
+
+
