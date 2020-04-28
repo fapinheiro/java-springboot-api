@@ -1,55 +1,42 @@
-package pt.isban.cib.entity;
+package pt.isban.cib.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Type;
+import pt.isban.cib.entity.Cliente;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-// Classe de representação de objecto do banco de dados
-@Entity
-@Table(name="clients")
-@SequenceGenerator(sequenceName="seq_clients", name = "seq_clients")
-public class Cliente {
+// DTO da classe cliente
+public class ClienteDTO {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_clients")
-    @Column(name = "client_id")
     private Integer clienteId;
     private String email;
-
-    private String password;
-
-    @Column(name = "name")
     private String nome;
 
-    @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
+    @JsonProperty(value = "dtNasc")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;
 
-    @Column(name = "creation_at")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonProperty(value = "dtCri")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCriacao;
 
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonProperty(value = "dtAct")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataAtualizacao;
-
-    //@Type(type="true_false")
-    @Column(name = "active")
     private Boolean ativo;
 
-    // TODO criar endereco
+    public ClienteDTO() {}
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public ClienteDTO(Cliente cliente) {
+        this.clienteId = cliente.getClienteId();
+        this.email = cliente.getEmail();
+        this.nome = cliente.getNome();
+        this.dataNascimento = cliente.getDataNascimento();
+        this.dataCriacao = cliente.getDataCriacao();
+        this.dataAtualizacao = cliente.getDataAtualizacao();
+        this.ativo = cliente.getAtivo();
     }
 
     public Integer getClienteId() {
@@ -112,7 +99,7 @@ public class Cliente {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
+        ClienteDTO cliente = (ClienteDTO) o;
         return Objects.equals(clienteId, cliente.clienteId);
     }
 

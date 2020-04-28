@@ -1,6 +1,8 @@
 28/04
+- Response field mapping com JsonProperty e JsonFormat
+- Entity x DTOs
+    - Password field
 - Mostrar os diferentes repositories do spring
-
 - Consultas spring disponiveis
 - Consulta personalizada
 
@@ -13,8 +15,15 @@
 - Implementar o service (lógica de negócio)
 	- Consulta de clientes
 - Implementar o controller
+    - HTTP Methods
+- Arquitetura MVC e SOLID Principle
+- Formato JSON
 
-
-
+21/04
+- Configuração do Workspace
+    - IntelliJ
+    - Maven
+    - JDK
+    - SpringProject
 
 
