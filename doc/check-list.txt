@@ -1,12 +1,20 @@
-28/04
+Session 4
+- Implementar:
+    - Consultar por ID
+    - Inserir
+    - Remover
+    - Actualizar
+
+Session 3
 - Response field mapping com JsonProperty e JsonFormat
 - Entity x DTOs
     - Password field
 - Mostrar os diferentes repositories do spring
+    - Controller Request Param
 - Consultas spring disponiveis
 - Consulta personalizada
 
-23/04
+Session 2
 - Terminar de implementar o entity
 	- Setter e Getter
 	- Equal e Hashcode
@@ -19,7 +27,7 @@
 - Arquitetura MVC e SOLID Principle
 - Formato JSON
 
-21/04
+Session 1
 - Configuração do Workspace
     - IntelliJ
     - Maven

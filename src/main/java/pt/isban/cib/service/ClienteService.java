@@ -28,4 +28,11 @@ public class ClienteService {
         return list;
     }
 
+    public List<Cliente> getClientesByNome(String nome) {
+        return clienteDAO.findByNomeContaining(nome);
+    }
+
+    public List<Cliente> getClientesByEmail(String email) {
+        return clienteDAO.findByEmail(email.toLowerCase());
+    }
 }
