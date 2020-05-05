@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.isban.cib.dto.ClienteDTO;
+import pt.isban.cib.dto.ClienteNewDTO;
 import pt.isban.cib.entity.Cliente;
 import pt.isban.cib.service.ClienteService;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,16 +47,30 @@ public class ClientController {
 
     }
 
-//    @GetMapping(path = "/clientes")
-//    public ResponseEntity<List<Cliente>> getClientesAtivos() {
-//        List<Cliente> list = clienteService.getClientes();
-//        return ResponseEntity.status(HttpStatus.OK)
-//                    .body(list);
-//    }
+    // GET
+    @GetMapping(path = "/clientes/{id}")
+    public ResponseEntity<ClienteDTO> getClientById(@PathVariable Integer id) throws Throwable {
+        Cliente cliente = clienteService.getClienteByID(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ClienteDTO(cliente));
+    }
 
     // POST
+    @PostMapping(path = "/clientes")
+    public ResponseEntity<ClienteDTO> inserirCliente(@RequestBody ClienteNewDTO dto) throws Throwable {
+
+        ClienteDTO clienteDTO = clienteService.saveDTO(dto);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(clienteDTO.getClienteId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(clienteDTO);
+    }
 
     // PUT
+
 
     // DELETE
 

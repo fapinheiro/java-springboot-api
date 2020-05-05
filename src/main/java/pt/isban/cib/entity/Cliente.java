@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Type;
+import pt.isban.cib.dto.ClienteNewDTO;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,10 +22,17 @@ public class Cliente {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_clients")
     @Column(name = "client_id")
     private Integer clienteId;
+
+    @NotNull
+    @Size(max = 100)
     private String email;
 
+    @NotNull
+    @Size(max = 100)
     private String password;
 
+    @NotNull
+    @Size(max = 100)
     @Column(name = "name")
     private String nome;
 
@@ -30,6 +40,7 @@ public class Cliente {
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
+    @NotNull
     @Column(name = "creation_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
@@ -38,11 +49,20 @@ public class Cliente {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
-    //@Type(type="true_false")
+//    @Type(type="true_false")
     @Column(name = "active")
-    private Boolean ativo;
+    private String ativo;
 
     // TODO criar endereco
+
+    public Cliente() {}
+
+    public Cliente(ClienteNewDTO dto) {
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.nome = dto.getNome();
+        this.dataNascimento = dto.getDtNasc();
+    }
 
     public String getPassword() {
         return password;
@@ -101,11 +121,18 @@ public class Cliente {
     }
 
     public Boolean getAtivo() {
-        return ativo;
+        if (!"".equals(ativo) && ativo.equals("1")) {
+            return true;
+        }
+        return false;
     }
 
     public void setAtivo(Boolean ativo) {
-       this.ativo = ativo;
+        if (ativo == true) {
+            this.ativo = "1";
+        } else {
+            this.ativo = "0";
+        }
     }
 
     @Override
