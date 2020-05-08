@@ -36,6 +36,7 @@ public class Cliente {
     @Column(name = "name")
     private String nome;
 
+    @NotNull
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;

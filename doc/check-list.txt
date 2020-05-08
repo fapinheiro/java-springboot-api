@@ -1,4 +1,21 @@
+Session 6
+    - Criar o mapeamento das tabelas one-to-one, one-to-many, many-to-many
+
 Session 5
+    - Validations
+        - Enviar email com mais de 100 caracterecs
+    - Transaction
+        - Enviar delete com debug mode para dar timeout
+    - Implementar handler de constraints e transaction timeout
+    - Annotations & Validations (Para organizar melhor a lógica dos Services)
+        - Nivel de parametro
+            - Para validar a senha (a+A+9+)
+            - Datas validas
+        - Nivel de objetos
+            - Email com combinação de nome & sobrenome @ qualquer coisa
+            - Implementar no ClienteNewDTO e pôr NotNull em (nome/email) p n dar conflito com o PUT
+
+Session 4b
     - Remover (Transaction, Optionals)
     - Actualizar (Transaction, Optionals)
 

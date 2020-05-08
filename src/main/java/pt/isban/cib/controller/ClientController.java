@@ -49,7 +49,7 @@ public class ClientController {
 
     // GET
     @GetMapping(path = "/clientes/{id}")
-    public ResponseEntity<ClienteDTO> getClientById(@PathVariable Integer id) throws Throwable {
+    public ResponseEntity<ClienteDTO> getClientePorID(@PathVariable Integer id) throws Throwable {
         Cliente cliente = clienteService.getClienteByID(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ClienteDTO(cliente));
@@ -70,8 +70,19 @@ public class ClientController {
     }
 
     // PUT
-
+    @PutMapping(path = "/clientes/{id}")
+    public ResponseEntity<ClienteDTO> atualizarClientePorID(@PathVariable Integer id,
+                                                        @RequestBody ClienteNewDTO dto) throws Throwable {
+        ClienteDTO clienteDTO = clienteService.updateDTO(id, dto);
+        return  ResponseEntity.status(HttpStatus.OK)
+                .body(clienteDTO);
+    }
 
     // DELETE
+    @DeleteMapping(path = "/clientes/{id}")
+    public ResponseEntity<Void> removerClientePorID(@PathVariable Integer id) throws Throwable {
+        clienteService.removerClientePorID(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 }
