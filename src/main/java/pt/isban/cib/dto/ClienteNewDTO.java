@@ -2,13 +2,16 @@ package pt.isban.cib.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import pt.isban.cib.annotations.ValidaClienteInput;
 import pt.isban.cib.entity.Cliente;
 
 import java.util.Date;
 import java.util.Objects;
 
 // DTO da classe cliente
+@ValidaClienteInput
 public class ClienteNewDTO {
+
 
     private String email;
     private String password;

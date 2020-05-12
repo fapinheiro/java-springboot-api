@@ -1,4 +1,5 @@
 Session 6
+    - Motivo pelo qual o @Valid nao resultou
     - Criar o mapeamento das tabelas one-to-one, one-to-many, many-to-many
 
 Session 5
