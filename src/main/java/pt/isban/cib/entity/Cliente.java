@@ -1,16 +1,20 @@
 package pt.isban.cib.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import pt.isban.cib.dto.ClienteNewDTO;
+import pt.isban.cib.enums.PrivilegioEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 // Classe de representação de objecto do banco de dados
 @Entity
@@ -54,7 +58,22 @@ public class Cliente {
     @Column(name = "active")
     private String ativo;
 
-    // TODO criar endereco
+    @NotNull
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Morada morada;
+
+    @NotEmpty
+    @OneToMany(mappedBy="cliente", cascade = CascadeType.ALL)
+    private List<DocumentoIdentificacao> docList = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany
+    @Fetch(FetchMode.JOIN)
+    @JoinTable(name = "clients_roles",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Privilegio> privilegioList = new ArrayList<>();
 
     public Cliente() {}
 
@@ -134,6 +153,27 @@ public class Cliente {
         } else {
             this.ativo = "0";
         }
+    }
+
+    public Morada getMorada() {
+        return morada;
+    }
+
+    public void setMorada(Morada morada) {
+        this.morada = morada;
+    }
+
+    public List<PrivilegioEnum> getRoles() {
+        return this.privilegioList
+                .stream()
+                .map( role -> PrivilegioEnum.toEnum(role.getPrivilegioId()) )
+                .collect(Collectors.toList());
+    }
+
+    public void setRoles(List<PrivilegioEnum> rolesList) {
+        this.privilegioList = rolesList.stream()
+                .map( role -> new Privilegio(role))
+                .collect(Collectors.toList());
     }
 
     @Override
