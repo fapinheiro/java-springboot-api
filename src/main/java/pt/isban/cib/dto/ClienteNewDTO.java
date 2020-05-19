@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.isban.cib.annotations.ValidaClienteInput;
 import pt.isban.cib.entity.Cliente;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,9 +15,14 @@ import java.util.Objects;
 @ValidaClienteInput
 public class ClienteNewDTO {
 
-
+    @NotNull(message = "O email nao pode ser vazio")
+    @Email(message = "Email nao é valido")
     private String email;
+
+    @NotNull(message = "A palavra-passe não pode ser vazia")
     private String password;
+
+    @NotNull(message = "O nome não pode ser vazio")
     private String nome;
 
     @JsonFormat(pattern = "dd/MM/yyyy")

@@ -29,8 +29,17 @@ public class ValidaClienteInputValidator implements ConstraintValidator<ValidaCl
         //        - Email com combinação de nome & sobrenome @ qualquer coisa
         //        - Implementar no ClienteNewDTO e pôr NotNull em (nome/email) p n dar conflito com o PUT
 
-        if (dto.getEmail().length() > 100) {
-            errorsMap.put("email", "Email não pode ter mais do que 100 caracteres");
+        final String message = "Não pode ter mais do que 100 caracteres";
+        if (dto.getEmail() != null && dto.getEmail().length() > 100) {
+            errorsMap.put("email", message);
+        }
+
+        if (dto.getNome() != null && dto.getNome().length() > 100) {
+            errorsMap.put("nome", message);
+        }
+
+        if (dto.getPassword() != null && dto.getPassword().length() > 100) {
+            errorsMap.put("password", message);
         }
 
         for (Map.Entry<String, String> entry : errorsMap.entrySet()) {

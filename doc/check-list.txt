@@ -1,5 +1,11 @@
 Session 6
     - Motivo pelo qual o @Valid nao resultou
+        - So funciona mesmo a nivel de controller
+    - Apresentar outos handlers mais utilizados
+        - Mostar o @Email no DTO
+        - Outros tipos de validação https://www.baeldung.com/javax-validation
+    - PUT clientes
+        - Vamos apenas falar de como seria a implementacao
     - Criar o mapeamento das tabelas one-to-one, one-to-many, many-to-many
 
 Session 5

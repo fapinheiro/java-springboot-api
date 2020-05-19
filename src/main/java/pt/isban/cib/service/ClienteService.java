@@ -9,10 +9,10 @@ import pt.isban.cib.dto.ClienteNewDTO;
 import pt.isban.cib.entity.Cliente;
 import pt.isban.cib.exception.NotFoundException;
 import pt.isban.cib.repository.ClienteRepository;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 // Classe que contem a lógica de negócio
 @Service

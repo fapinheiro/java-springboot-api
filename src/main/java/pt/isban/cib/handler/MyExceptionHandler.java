@@ -4,12 +4,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.transaction.TransactionException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pt.isban.cib.exception.NotFoundException;
 
@@ -37,10 +42,6 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Esta exceção é lançada quando ocorrer uma violação de regras de validação dos entidades.
-     */
-
-    /**
      * This exception is thrown when argument annotated with @Valid failed
      */
     @Override
@@ -53,15 +54,47 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
         }
-//        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-////            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-////        }
+        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+        }
 
         ApiError apiError = new ApiError(
                 HttpStatus.BAD_REQUEST,
                 "Campos inválidos",
                 errors);
 
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    /**
+     * This exception is thrown when constraint validation (email unique)
+     */
+    @ExceptionHandler(value = { DataIntegrityViolationException.class })
+    protected ResponseEntity<Object> handleConstraint(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
+        List<String> errors = new ArrayList<String>();
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, "Constraint violation", errors);
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    /**
+     * This exception is thrown when transaction timeout
+     */
+    @ExceptionHandler(value = { TransactionException.class })
+    protected ResponseEntity<Object> handleTransactions(RuntimeException ex, WebRequest request) {
+        ex.printStackTrace();
+        List<String> errors = new ArrayList<String>();
+        ApiError apiError = new ApiError(HttpStatus.BAD_GATEWAY, "Transaction timeout", errors);
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    /**
+     * This exception is thrown when unexpected exceptions
+     */
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        ex.printStackTrace();
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", "error occurred");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 

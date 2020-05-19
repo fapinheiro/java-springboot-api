@@ -1,8 +1,7 @@
 create table if not exists addresses (
    address_id int primary key,
-   postal_code_id varchar(8) not null,
-   locale_number varchar(10) not null,
-   additional_info varchar(100) not null,
+   street_name varchar(100) not null,
+   street_complement varchar(100) not null,
    creation_at timestamp not null,
    updated_at timestamp null
 );
@@ -31,7 +30,6 @@ create table if not exists identifications (
    updated_at timestamp null,
    constraint fk_clients_identifications foreign key (client_id) references clients(client_id)
 );
-
 
 create table if not exists roles (
    role_id int primary key,
