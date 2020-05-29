@@ -3,6 +3,7 @@ package pt.isban.cib.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.isban.cib.dto.ClienteDTO;
@@ -24,6 +25,7 @@ public class ClientController {
     private ClienteService clienteService;
 
     // GET
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/clientes")
     public ResponseEntity<List<ClienteDTO>> getClientesAtivos(
             @RequestParam(required=false, defaultValue = "") String nome,
@@ -49,6 +51,7 @@ public class ClientController {
     }
 
     // GET
+    @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     @GetMapping(path = "/clientes/{id}")
     public ResponseEntity<ClienteDTO> getClientePorID(@PathVariable Integer id) throws Throwable {
         Cliente cliente = clienteService.getClienteByID(id);
@@ -71,6 +74,7 @@ public class ClientController {
     }
 
     // PUT
+    @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     @PutMapping(path = "/clientes/{id}")
     public ResponseEntity<ClienteDTO> atualizarClientePorID(@PathVariable Integer id,
                                                         @RequestBody ClienteNewDTO dto) throws Throwable {
@@ -80,6 +84,7 @@ public class ClientController {
     }
 
     // DELETE
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(path = "/clientes/{id}")
     public ResponseEntity<Void> removerClientePorID(@PathVariable Integer id) throws Throwable {
         clienteService.removerClientePorID(id);

@@ -8,7 +8,9 @@ import pt.isban.cib.entity.Cliente;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 // DTO da classe cliente
@@ -27,6 +29,10 @@ public class ClienteNewDTO {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dtNasc;
+
+    private MoradaDTO morada;
+
+    private List<DocumentoDTO> documentos = new ArrayList<>();
 
     public ClienteNewDTO() {}
 
@@ -62,4 +68,19 @@ public class ClienteNewDTO {
         this.dtNasc = dtNasc;
     }
 
+    public MoradaDTO getMorada() {
+        return morada;
+    }
+
+    public void setMorada(MoradaDTO morada) {
+        this.morada = morada;
+    }
+
+    public List<DocumentoDTO> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(List<DocumentoDTO> documentos) {
+        this.documentos = documentos;
+    }
 }

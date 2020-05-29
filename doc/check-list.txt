@@ -1,3 +1,20 @@
+Session 9
+    - Implementar o login
+    - Enviar o token nas requests
+    - Implementar segurança por id/token
+    - Implementar o refresh token
+
+Session 8
+    - Explicar o problema no @Max
+    - Implementar itens q faltaram
+    - Falar sobre os GETs, PUT e DELETE
+    - Message resources
+    - Introdução à security
+
+Session 7
+    - Concluir mapeamento ORM
+    - Criar POST, PUT, GET e DELETE
+
 Session 6
     - Motivo pelo qual o @Valid nao resultou
         - So funciona mesmo a nivel de controller

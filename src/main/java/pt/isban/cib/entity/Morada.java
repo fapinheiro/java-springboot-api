@@ -1,8 +1,11 @@
 package pt.isban.cib.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 
@@ -12,17 +15,19 @@ import java.util.Date;
 public class Morada {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_clients")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_addresses")
     @Column( name="address_id")
     private Integer moradaId;
 
     @NotNull
-    @Max(value = 100)
+    @Size(max = 100)
+//    @Max(value = 100)
     @Column(name = "street_name")
     private String endereco;
 
     @NotNull
-    @Max(value = 100)
+    @Size(max = 100)
+//    @Max(value = 100)
     @Column(name = "street_complement")
     private String enderecoComplement;
 
@@ -34,6 +39,10 @@ public class Morada {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dtActualizacao;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "morada")
+    private Cliente cliente;
 
     public Integer getMoradaId() {
         return moradaId;
@@ -73,5 +82,13 @@ public class Morada {
 
     public void setDtActualizacao(Date dtActualizacao) {
         this.dtActualizacao = dtActualizacao;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

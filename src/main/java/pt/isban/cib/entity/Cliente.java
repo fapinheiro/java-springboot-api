@@ -73,7 +73,7 @@ public class Cliente {
     @JoinTable(name = "clients_roles",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Privilegio> privilegioList = new ArrayList<>();
+    private List<Privilegio> roles = new ArrayList<>();
 
     public Cliente() {}
 
@@ -82,6 +82,17 @@ public class Cliente {
         this.password = dto.getPassword();
         this.nome = dto.getNome();
         this.dataNascimento = dto.getDtNasc();
+
+        // Define campos da morada
+        this.morada = new Morada();
+        this.morada.setEndereco(dto.getMorada().getEndereco());
+        this.morada.setEnderecoComplement(dto.getMorada().getComplemento());
+
+        // Define campos da lista de documentos
+        this.docList.addAll(dto.getDocumentos()
+                .stream()
+                .map( dtoList -> new DocumentoIdentificacao(dtoList))
+                .collect(Collectors.toList()));
     }
 
     public String getPassword() {
@@ -164,16 +175,24 @@ public class Cliente {
     }
 
     public List<PrivilegioEnum> getRoles() {
-        return this.privilegioList
+        return this.roles
                 .stream()
                 .map( role -> PrivilegioEnum.toEnum(role.getPrivilegioId()) )
                 .collect(Collectors.toList());
     }
 
     public void setRoles(List<PrivilegioEnum> rolesList) {
-        this.privilegioList = rolesList.stream()
+        this.roles = rolesList.stream()
                 .map( role -> new Privilegio(role))
                 .collect(Collectors.toList());
+    }
+
+    public List<DocumentoIdentificacao> getDocList() {
+        return docList;
+    }
+
+    public void setDocList(List<DocumentoIdentificacao> docList) {
+        this.docList = docList;
     }
 
     @Override

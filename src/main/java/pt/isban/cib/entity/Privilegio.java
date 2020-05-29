@@ -21,8 +21,10 @@ public class Privilegio {
     @Max(value=200)
     private String privilegioDesc;
 
-    @ManyToMany(mappedBy = "privilegio", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<Cliente> clienteList = new ArrayList<>();
+
+    public Privilegio() {}
 
     public Privilegio(PrivilegioEnum role) {
         this.privilegioId = role.getCodigo();

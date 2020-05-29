@@ -1,10 +1,12 @@
 package pt.isban.cib.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pt.isban.cib.dto.DocumentoDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -19,11 +21,11 @@ public class DocumentoIdentificacao {
 
     @NotNull
     @Column(name="ident_type")
-    private Integer tipoDoDocumento;
+        private Integer tipoDoDocumento;
 
     @NotNull
-    @Column(name="ident_type")
-    @Max(value=100)
+    @Column(name="ident_code")
+    @Size(max = 100)
     private String numeroDocumento;
 
     @NotNull
@@ -47,9 +49,18 @@ public class DocumentoIdentificacao {
 
     @JsonIgnore
     @NotNull
-    @ManyToOne
+        @ManyToOne
     @JoinColumn(name="client_id", nullable=false)
-    private Cliente client;
+    private Cliente cliente;
+
+    public DocumentoIdentificacao() {}
+
+    public DocumentoIdentificacao(DocumentoDTO dto) {
+        this.tipoDoDocumento = dto.getTipo().getCodigo();
+        this.numeroDocumento = dto.getNumero();
+        this.dtEmissao = dto.getDtEmissao();
+        this.dtValidate = dto.getDtValidade();
+    }
 
     public Integer getDocumentoIdentificacaoId() {
         return documentoIdentificacaoId;
@@ -107,11 +118,11 @@ public class DocumentoIdentificacao {
         this.dtActualizacao = dtActualizacao;
     }
 
-    public Cliente getClient() {
-        return client;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setClient(Cliente client) {
-        this.client = client;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
