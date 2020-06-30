@@ -1,0 +1,39 @@
+package pt.isban.cib.security;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurity2 extends WebSecurityConfigurerAdapter {
+
+    public void configure(HttpSecurity http) throws Exception {
+
+        JWTAuthenticationFilter jwtAuth = new JWTAuthenticationFilter(authenticationManager(), jwtUtil);
+        jwtAuth.setFilterProcessesUrl(SecurityConstants.LOGIN_URL);
+
+
+        http.headers().frameOptions().disable().and() // Disable header X-Frame-Options, Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites in an iframe content.
+                .cors().and().csrf().disable() // Interesting, the attacker makes the client trigger the request he wants to
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/v1/clientes").permitAll()
+                .antMatchers("*", "/h2-console/*").permitAll()
+                .antMatchers("*", "/favicon.ico").permitAll()
+                .anyRequest().authenticated().and()
+                .addFilter(jwtAuth)
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, httpUtil, userDetailsService))
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // this disables session creation on Spring Security
+    }
+
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+    }
+
+
+}
