@@ -8,16 +8,22 @@ pipeline {
         stage('Start ECS') {
             steps {
                 echo "Starting the ECS service"
-                sh '''
-					ecs-cli compose \
-					--project-name java-springboot-api service \
-					up \
-					--create-log-groups \
-					--cluster cib-cross-service-fargate \
-					--launch-type FARGATE \
-					--region eu-west-2 \
-					--aws-profile default
-				'''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credential',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) { 
+                    sh '''
+					    ecs-cli compose \
+					    --project-name java-springboot-api service \
+					    up \
+					    --create-log-groups \
+					    --cluster cib-cross-service-fargate \
+					    --launch-type FARGATE \
+					    --region eu-west-2
+				    '''
+                }
                 echo "The ECS service was started"
             }
         }
@@ -32,14 +38,20 @@ pipeline {
         stage('Stop ECS') {
             steps {
                 echo "Stoping the ECS service"
-               sh '''
-                    ecs-cli compose \
-                    --project-name java-springboot-api service \
-                    down \
-                    --cluster cib-cross-service-fargate \
-                    --region eu-west-2 \
-                    --aws-profile default
-                '''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credential',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) { 
+                    sh '''
+                        ecs-cli compose \
+                        --project-name java-springboot-api service \
+                        down \
+                        --cluster cib-cross-service-fargate \
+                        --region eu-west-2
+                    '''
+                }
                 echo "The ECS service was stopped"
             }
         }
