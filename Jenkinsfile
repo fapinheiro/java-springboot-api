@@ -10,7 +10,7 @@ pipeline {
                 echo "Starting the ECS service"
                 sh '''
 					ecs-cli compose \
-					--project-name tibco-ems service \
+					--project-name java-springboot-api service \
 					up \
 					--create-log-groups \
 					--cluster cib-cross-service-fargate \
@@ -21,9 +21,9 @@ pipeline {
                 echo "The ECS service was started"
             }
         }
-        stage('Wait 30 seconds') {
-            steps {
-                sleep 30
+        stage('Wait user permittions') {
+            input {
+                message "Should we continue?"
             }
         }
         stage('Stop ECS') {
@@ -31,7 +31,7 @@ pipeline {
                 echo "Stoping the ECS service"
                sh '''
                     ecs-cli compose \
-                    --project-name tibco-ems service \
+                    --project-name java-springboot-api service \
                     down \
                     --cluster cib-cross-service-fargate \
                     --region eu-west-2 \
