@@ -40,4 +40,19 @@ public class JWTUtil {
                                      .toInstant()))
                 .sign(Algorithm.HMAC512(secret));
     }
+
+    public String getTokenLogin(String token) {
+        return JWT.require(Algorithm.HMAC512(secret))
+                .build()
+                .verify(token)
+                .getSubject();
+    }
+
+    public Integer getTokenId(String token) {
+        return JWT.require(Algorithm.HMAC512(secret))
+                .build()
+                .verify(token)
+                .getClaim("id")
+                .asInt();
+    }
 }

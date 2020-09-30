@@ -9,6 +9,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.isban.cib.dto.ClienteDTO;
 import pt.isban.cib.dto.ClienteNewDTO;
 import pt.isban.cib.entity.Cliente;
+import pt.isban.cib.enums.PrivilegioEnum;
+import pt.isban.cib.exception.AuthorizationException;
+import pt.isban.cib.security.HTTPUtil;
+import pt.isban.cib.security.JWTUtil;
 import pt.isban.cib.service.ClienteService;
 
 import javax.validation.Valid;
@@ -23,6 +27,12 @@ public class ClientController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private HTTPUtil httpUtil;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     // GET
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -54,9 +64,23 @@ public class ClientController {
     @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     @GetMapping(path = "/clientes/{id}")
     public ResponseEntity<ClienteDTO> getClientePorID(@PathVariable Integer id) throws Throwable {
+        verificarPermissoes(id);
         Cliente cliente = clienteService.getClienteByID(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ClienteDTO(cliente));
+    }
+
+    /**
+     * Permitir operações apenas para o user do token.
+     * @param id
+     */
+    private void verificarPermissoes(Integer id) {
+        final String token = httpUtil.getRequestToken();
+        final Integer tokenID = jwtUtil.getTokenId(token);
+        if (!id.equals(tokenID) &&
+                !httpUtil.hasRequestRole(PrivilegioEnum.ADMIN)) {
+            throw new AuthorizationException("Nao está autorizaodo a consultar estes dados");
+        }
     }
 
     // POST

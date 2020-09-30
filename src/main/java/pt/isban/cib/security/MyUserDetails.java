@@ -85,4 +85,8 @@ public class MyUserDetails implements UserDetails {
     public void setRoles(Collection<? extends GrantedAuthority> roles) {
         this.roles = roles;
     }
+
+    public boolean hasRole(PrivilegioEnum privilegio) {
+        return roles.contains( new SimpleGrantedAuthority( privilegio.getDescricao()) );
+    }
 }

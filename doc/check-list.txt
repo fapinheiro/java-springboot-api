@@ -1,8 +1,11 @@
+Session 10
+    - Corrigir retorno 500 quando da consulta de clientes por ID e All
+    - Implementar o refresh token
+
 Session 9
     - Implementar o login
     - Enviar o token nas requests
     - Implementar segurança por id/token
-    - Implementar o refresh token
 
 Session 8
     - Explicar o problema no @Max

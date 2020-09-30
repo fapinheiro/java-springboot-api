@@ -1,5 +1,6 @@
 package pt.isban.cib.security;
 
+import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
             String token = jwtUtil.generateToken(userDetails);
 
-            // res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+            res.addHeader("Authorization", "Bearer " + token);
 
             PrintWriter out = res.getWriter();
             res.setContentType("application/json");
