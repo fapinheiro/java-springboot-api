@@ -21,9 +21,12 @@ pipeline {
                 echo "The ECS service was started"
             }
         }
-        stage('Wait user permittions') {
+        stage('Wait User Task') {
             input {
                 message "Should we continue?"
+            }
+            steps {
+                echo "Continuing the pipeline"
             }
         }
         stage('Stop ECS') {
