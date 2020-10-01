@@ -1,13 +1,13 @@
 version: '3'
  
 services:
-  java-springboot-api:
-    image: 204040696103.dkr.ecr.eu-west-2.amazonaws.com/java-springboot-api:0.0.1-SNAPSHOT
+  java-springboot-api-3:
+    image: 204040696103.dkr.ecr.eu-west-2.amazonaws.com/java-springboot-api:0.0.3-SNAPSHOT
     ports:
       - "8089:8089"
     logging:
       driver: awslogs
       options:
-        awslogs-group: /ecs/java-springboot-api-task
+        awslogs-group: /ecs/java-springboot-api-task3
         awslogs-region: eu-west-2
-        awslogs-stream-prefix: java-springboot-api
+        awslogs-stream-prefix: java-springboot-api-3
