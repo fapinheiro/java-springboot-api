@@ -8,7 +8,6 @@ task_definition:
     cpu_limit: 256
   services:
     java-springboot-api:
-      mem_limit: "512M"
 run_params:
   network_configuration:
     awsvpc_configuration:

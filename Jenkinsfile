@@ -53,7 +53,7 @@ pipeline {
                         down \
                         --cluster cib-cross-service-fargate \
                         --region eu-west-2 \
-                        ---delete-namespace
+                        --delete-namespace
                     '''
                 }
                 echo "The ECS service was stopped"
