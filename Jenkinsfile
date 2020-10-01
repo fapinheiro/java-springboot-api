@@ -16,7 +16,7 @@ pipeline {
                 ]]) { 
                     sh '''
 					    ecs-cli compose \
-					    --project-name java-springboot-api service \
+					    --project-name java-springboot-api-3 service \
 					    up \
 					    --create-log-groups \
 					    --cluster cib-cross-service-fargate \
@@ -46,7 +46,7 @@ pipeline {
                 ]]) { 
                     sh '''
                         ecs-cli compose \
-                        --project-name java-springboot-api service \
+                        --project-name java-springboot-api-3 service \
                         down \
                         --cluster cib-cross-service-fargate \
                         --region eu-west-2
