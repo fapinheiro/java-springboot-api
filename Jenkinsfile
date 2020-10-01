@@ -21,7 +21,9 @@ pipeline {
 					    --create-log-groups \
 					    --cluster cib-cross-service-fargate \
 					    --launch-type FARGATE \
-					    --region eu-west-2
+					    --region eu-west-2 \
+                        --public-dns-namespace cib-cross-services \
+                        --enable-service-discovery
 				    '''
                 }
                 echo "The ECS service was started"
@@ -49,7 +51,9 @@ pipeline {
                         --project-name java-springboot-api service \
                         down \
                         --cluster cib-cross-service-fargate \
-                        --region eu-west-2
+                        --region eu-west-2 \
+                        --public-dns-namespace cib-cross-services \
+                        --enable-service-discovery
                     '''
                 }
                 echo "The ECS service was stopped"
