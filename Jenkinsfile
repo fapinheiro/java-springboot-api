@@ -10,7 +10,7 @@ pipeline {
                 echo "Starting the ECS service"
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credential',
+                    credentialsId: 'aws-credential-test',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) { 
@@ -43,7 +43,7 @@ pipeline {
                 echo "Stoping the ECS service"
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credential',
+                    credentialsId: 'aws-credential-test',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) { 
