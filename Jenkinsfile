@@ -50,9 +50,7 @@ pipeline {
                         down \
                         --cluster cib-cross-service-fargate \
                         --region eu-west-2 \
-                        --private-dns-namespace cib-cross-services \
-                        --enable-service-discovery \
-                        --vpc vpc-004ddc327f58ff434
+                        --delete-namespace
                     '''
                 }
                 echo "The ECS service was stopped"
