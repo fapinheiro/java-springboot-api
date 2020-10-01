@@ -23,7 +23,8 @@ pipeline {
 					    --launch-type FARGATE \
 					    --region eu-west-2 \
                         --public-dns-namespace cib-cross-services \
-                        --enable-service-discovery
+                        --enable-service-discovery \
+                        --vpc vpc-004ddc327f58ff434
 				    '''
                 }
                 echo "The ECS service was started"
@@ -53,7 +54,8 @@ pipeline {
                         --cluster cib-cross-service-fargate \
                         --region eu-west-2 \
                         --public-dns-namespace cib-cross-services \
-                        --enable-service-discovery
+                        --enable-service-discovery \
+                        --vpc vpc-004ddc327f58ff434
                     '''
                 }
                 echo "The ECS service was stopped"
