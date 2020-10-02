@@ -3,7 +3,7 @@ Backend do webservice de clientes
 
 Projeto utilizado para apresentar os conceitos de SpringBoot. Ver o ficheiro doc/check-list.txt 
 
-Deploy no AWS Fargate
+Deploy no AWS ECS/Fargate
 
 # Build Maven
 mvn "-Dspring.profiles.active=dev" clean package
